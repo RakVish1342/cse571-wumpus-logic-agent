@@ -17,6 +17,7 @@
 # python project, see https://github.com/netom/satispy .
 
 import utils
+import pdb
 
 #-------------------------------------------------------------------------------
 # Wumpus Propositions
@@ -208,6 +209,25 @@ def axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    # Section 7.7 of AIMA, starting on page 265
+    # Bx,y <=> Pij | P(i+1)j | P(i-1)j | Pi(j+1) | Pi(j-1) for all valid i and j
+    axiom_str = breeze_str(x,y) + ' <=> '
+
+    testLoc = [(x, y), (x+1, y), (x-1, y), (x, y+1), (x, y-1)] # should also include same location also as per docs above
+    for i in range(len(testLoc)):
+        loc = testLoc[i]
+        if (loc[0] >= xmin and loc[0] <= xmax and loc[1] >= ymin and loc[1] <= ymax):
+            axiom_str += pit_str(loc[0], loc[1]) + ' | '
+
+    # remove the last OR symbol
+    if axiom_str[-3 :] == ' | ':
+        axiom_str = axiom_str[:-3]
+
+    if axiom_str[-5 :] == ' <=> ':
+        axiom_str = ''
+    
+    # print axiom_str
+
     return axiom_str
 
 def generate_pit_and_breeze_axioms(xmin, xmax, ymin, ymax):
