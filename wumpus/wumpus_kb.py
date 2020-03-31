@@ -458,6 +458,8 @@ def axiom_generator_location_OK(x, y, t):
     #?? Any additional conditions? ie. should I use stench, breeze percepts to conclude if this spot is safe?
     #?? More Wumpus based checks needed? Just need to look for "alive" wumpus at that location. Fine to go to the location if wumpus is dead
 
+    #?? Also look at other cases so far and see if I need to use a double or single implication anywhere
+
 
     # no wumpus in that location OR
     # wumpus in that location AND dead
@@ -497,6 +499,11 @@ def axiom_generator_breeze_percept_and_location_property(x, y, t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    # From the testbook. Page 266, relating atemporals with temporals/fluents
+    axiom_str = state_loc_str(x,y,t) + ' >> ' + percept_breeze_str(t) + ' <=> ' + breeze_str(x,y)
+
+    # print axiom_str
+
     return axiom_str
 
 def generate_breeze_percept_and_location_axioms(t, xmin, xmax, ymin, ymax):
@@ -518,6 +525,11 @@ def axiom_generator_stench_percept_and_location_property(x, y, t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    # From the testbook. Page 266, relating atemporals with temporals/fluents
+    axiom_str = state_loc_str(x,y,t) + ' >> ' + percept_stench_str(t) + ' <=> ' + stench_str(x,y)
+
+    # print axiom_str
+
     return axiom_str
 
 def generate_stench_percept_and_location_axioms(t, xmin, xmax, ymin, ymax):

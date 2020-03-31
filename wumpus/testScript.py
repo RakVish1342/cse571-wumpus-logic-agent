@@ -106,5 +106,20 @@ kb.axiom_generator_location_OK(x, y, t)
 print ("-----")
 
 
+print (">> axiom_generator_breeze_percept_and_location_property")
+t = 0
+x = 1
+y = 1
+kb.axiom_generator_breeze_percept_and_location_property(x, y, t)
+print ("-----")
+
+print (">> axiom_generator_stench_percept_and_location_property")
+t = 0
+x = 1
+y = 1
+kb.axiom_generator_stench_percept_and_location_property(x, y, t)
+print ("-----")
+
+
 
 
