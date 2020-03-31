@@ -98,6 +98,13 @@ t=0
 kb.axiom_generator_have_arrow_and_wumpus_alive(t)
 print ("-----")
 
+print (">> axiom_generator_location_OK")
+t = 0
+x = 1
+y = 1
+kb.axiom_generator_location_OK(x, y, t)
+print ("-----")
+
 
 
 
