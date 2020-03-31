@@ -844,8 +844,44 @@ def axiom_generator_only_one_action_axioms(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += \
+    '(' + action_forward_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')' 
+    axiom_str += ' | '
+
+    axiom_str += \
+    '(' + action_climb_str(t) + ' & ' + falseSymb + '(' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    axiom_str += ' | '        
+
+    axiom_str += \
+    '(' + action_grab_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    axiom_str += ' | '
+
+    axiom_str += \
+    '(' + action_shoot_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    axiom_str += ' | '  
+
+    axiom_str += \
+    '(' + action_turn_left_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    axiom_str += ' | '
+
+    axiom_str += \
+    '(' + action_turn_right_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    axiom_str += ' | '
+
+    axiom_str += \
+    '(' + action_wait_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ')' + ')'
+
+    print axiom_str          
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 

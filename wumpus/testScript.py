@@ -173,6 +173,11 @@ t = 0
 kb.axiom_generator_heading_only_west(t)
 print ("-----")
 
+print (">> axiom_generator_only_one_action_axioms")
+t = 0
+kb.axiom_generator_only_one_action_axioms(t)
+print ("-----")
+
 
 
 
