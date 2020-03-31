@@ -365,11 +365,11 @@ def axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t = 0):
             # Else negate it/state other locations are false
             else:
                 axiom_str += falseSymb + state_loc_str(x,y,t) + ' & '
-                
+
     if axiom_str[-3 :] == ' & ':
         axiom_str = axiom_str[:-3]   
 
-    print axiom_str
+    # print axiom_str
 
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
@@ -385,8 +385,18 @@ def axiom_generator_only_one_heading(heading = 'north', t = 0):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += state_heading_north_str(t) if heading == 'north' else falseSymb + state_heading_north_str(t)
+    axiom_str += ' & '
+    axiom_str += state_heading_east_str(t) if heading == 'east' else falseSymb + state_heading_east_str(t)
+    axiom_str += ' & '
+    axiom_str += state_heading_south_str(t) if heading == 'south' else falseSymb + state_heading_south_str(t)
+    axiom_str += ' & '
+    axiom_str += state_heading_west_str(t) if heading == 'west' else falseSymb + state_heading_west_str(t)
+
+    print axiom_str 
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_have_arrow_and_wumpus_alive(t = 0):

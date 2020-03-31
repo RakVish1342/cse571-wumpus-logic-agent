@@ -84,7 +84,13 @@ xmin = 1
 xmax = 4
 ymin = 1
 ymax = 3
-kb.axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax)
+kb.axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t)
+print ("-----")
+
+print (">> axiom_generator_only_one_heading")
+t=0
+heading = 'north'
+kb.axiom_generator_only_one_heading(heading, t)
 print ("-----")
 
 
