@@ -133,6 +133,26 @@ t = 0
 kb.axiom_generator_wumpus_alive_ssa(t)
 print ("-----")
 
+print (">> axiom_generator_heading_north_ssa")
+t = 0
+kb.axiom_generator_heading_north_ssa(t)
+print ("-----")
+
+print (">> axiom_generator_heading_east_ssa")
+t = 0
+kb.axiom_generator_heading_east_ssa(t)
+print ("-----")
+
+print (">> axiom_generator_heading_south_ssa")
+t = 0
+kb.axiom_generator_heading_south_ssa(t)
+print ("-----")
+
+print (">> axiom_generator_heading_west_ssa")
+t = 0
+kb.axiom_generator_heading_west_ssa(t)
+print ("-----")
+
 
 
 
