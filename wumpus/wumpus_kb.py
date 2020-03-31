@@ -393,7 +393,7 @@ def axiom_generator_only_one_heading(heading = 'north', t = 0):
     axiom_str += ' & '
     axiom_str += state_heading_west_str(t) if heading == 'west' else falseSymb + state_heading_west_str(t)
 
-    print axiom_str 
+    # print axiom_str 
 
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
@@ -407,8 +407,13 @@ def axiom_generator_have_arrow_and_wumpus_alive(t = 0):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+
+    axiom_str += state_have_arrow_str(t) + ' & ' +  state_wumpus_alive_str(t)
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 

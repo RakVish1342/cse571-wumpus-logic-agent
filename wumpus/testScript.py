@@ -93,6 +93,11 @@ heading = 'north'
 kb.axiom_generator_only_one_heading(heading, t)
 print ("-----")
 
+print (">> axiom_generator_have_arrow_and_wumpus_alive")
+t=0
+kb.axiom_generator_have_arrow_and_wumpus_alive(t)
+print ("-----")
+
 
 
 
