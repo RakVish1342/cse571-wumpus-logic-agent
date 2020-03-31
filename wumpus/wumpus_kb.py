@@ -477,7 +477,7 @@ def axiom_generator_location_OK(x, y, t):
         falseSymb + '(' + wumpus_str(x,y) + ' & ' + state_wumpus_alive_str(t) +  ')' + ' & ' + \
         falseSymb + pit_str(x,y)
 
-    print axiom_str
+    # print axiom_str
      
     return axiom_str
 
@@ -635,7 +635,7 @@ def axiom_generator_wumpus_alive_ssa(t):
     axiom_str = state_wumpus_alive_str(t+1) + '<=>' + \
         '(' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t) + ')'
 
-    print axiom_str
+    # print axiom_str
 
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
@@ -726,7 +726,7 @@ def axiom_generator_heading_west_ssa(t):
         '(' + state_heading_south_str(t) + ' & ' + action_turn_right_str(t) +  ')' + ' | ' + \
         '(' + state_heading_north_str(t) + ' & ' + action_turn_left_str(t) +  ')'
 
-    print axiom_str
+    # print axiom_str
 
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
@@ -762,8 +762,14 @@ def axiom_generator_heading_only_north(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += state_heading_north_str(t) + ' & ' + \
+        falseSymb + '(' + state_heading_south_str(t) + ' | ' + state_heading_east_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ')'
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_heading_only_east(t):
@@ -775,8 +781,14 @@ def axiom_generator_heading_only_east(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += state_heading_east_str(t) + ' & ' + \
+        falseSymb + '(' + state_heading_south_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ')'
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_heading_only_south(t):
@@ -788,8 +800,14 @@ def axiom_generator_heading_only_south(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += state_heading_south_str(t) + ' & ' + \
+        falseSymb + '(' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ')'
+
+    # print axiom_str
+    
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented() 
     return axiom_str
 
 def axiom_generator_heading_only_west(t):
@@ -801,8 +819,14 @@ def axiom_generator_heading_only_west(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str += state_heading_west_str(t) + ' & ' + \
+        falseSymb + '(' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_south_str(t) + ')'
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def generate_heading_only_one_direction_axioms(t):

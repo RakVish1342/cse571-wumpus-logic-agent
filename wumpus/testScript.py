@@ -153,6 +153,27 @@ t = 0
 kb.axiom_generator_heading_west_ssa(t)
 print ("-----")
 
+print (">> axiom_generator_heading_only_north")
+t = 0
+kb.axiom_generator_heading_only_north(t)
+print ("-----")
+
+print (">> axiom_generator_heading_only_east")
+t = 0
+kb.axiom_generator_heading_only_east(t)
+print ("-----")
+
+print (">> axiom_generator_heading_only_south")
+t = 0
+kb.axiom_generator_heading_only_south(t)
+print ("-----")
+
+print (">> axiom_generator_heading_only_west")
+t = 0
+kb.axiom_generator_heading_only_west(t)
+print ("-----")
+
+
 
 
 
