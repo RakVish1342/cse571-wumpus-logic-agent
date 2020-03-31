@@ -464,15 +464,20 @@ def axiom_generator_location_OK(x, y, t):
     # no wumpus in that location OR
     # wumpus in that location AND dead
     # AND no pit in that location
-    axiom_str = state_OK_str(x,y,t) + ' <==> ' + \
-        '(' + \
-        '(' + falseSymb + wumpus_str(x,y) + ')' + ' | ' + \
-        '(' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) +  ')' + \
-        ')' + \
-        ' & ' + \
+    # axiom_str = state_OK_str(x,y,t) + ' <=> ' + \
+    #     '(' + \
+    #     '(' + falseSymb + wumpus_str(x,y) + ')' + ' | ' + \
+    #     '(' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) +  ')' + \
+    #     ')' + \
+    #     ' & ' + \
+    #     falseSymb + pit_str(x,y)
+
+    # As per textbook (pg. 268)
+    axiom_str = state_OK_str(x,y,t) + ' <=> ' + \
+        falseSymb + '(' + wumpus_str(x,y) + ' & ' + state_wumpus_alive_str(t) +  ')' + ' & ' + \
         falseSymb + pit_str(x,y)
 
-    # print axiom_str
+    print axiom_str
      
     return axiom_str
 
