@@ -606,8 +606,12 @@ def axiom_generator_have_arrow_ssa(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str = state_have_arrow_str(t+1) + ' <=> ' + '(' + state_have_arrow_str(t) + ' & ' + '(' + falseSymb+action_shoot_str(t) + ')' + ')'
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_wumpus_alive_ssa(t):
@@ -623,8 +627,13 @@ def axiom_generator_wumpus_alive_ssa(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    axiom_str = state_wumpus_alive_str(t+1) + '<=>' + \
+        '(' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t) + ')'
+
+    print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 #----------------------------------

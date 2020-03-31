@@ -121,5 +121,19 @@ kb.axiom_generator_stench_percept_and_location_property(x, y, t)
 print ("-----")
 
 
+#ADD location ssa
+
+print (">> axiom_generator_have_arrow_ssa")
+t = 0
+kb.axiom_generator_have_arrow_ssa(t)
+print ("-----")
+
+print (">> axiom_generator_wumpus_alive_ssa")
+t = 0
+kb.axiom_generator_wumpus_alive_ssa(t)
+print ("-----")
+
+
+
 
 
