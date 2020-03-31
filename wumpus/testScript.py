@@ -75,3 +75,18 @@ ymax = 3
 kb.axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax)
 print ("-----")
 #'''
+
+print (">> axiom_generator_only_in_one_location")
+t=0
+xi = 1
+yi = 1
+xmin = 1
+xmax = 4
+ymin = 1
+ymax = 3
+kb.axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax)
+print ("-----")
+
+
+
+

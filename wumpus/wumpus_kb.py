@@ -357,8 +357,22 @@ def axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t = 0):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    for x in range(xmin, xmax + 1):
+        for y in range(ymin, ymax + 1):
+            # Allow location if it is current xi, yi location
+            if (x == xi and y == yi):
+                axiom_str += state_loc_str(x,y,t) + ' & '
+            # Else negate it/state other locations are false
+            else:
+                axiom_str += falseSymb + state_loc_str(x,y,t) + ' & '
+                
+    if axiom_str[-3 :] == ' & ':
+        axiom_str = axiom_str[:-3]   
+
+    print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_only_one_heading(heading = 'north', t = 0):
