@@ -291,8 +291,19 @@ def axiom_generator_at_least_one_wumpus(xmin, xmax, ymin, ymax):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+
+    # At least one Wumpus means any one location in the valid range should have a Wumpus.
+    for x in range(xmin, xmax + 1):
+        for y in range(ymin, ymax + 1):
+            axiom_str += wumpus_str(x,y) + ' | '
+
+    if axiom_str[-3 :] == ' | ':
+        axiom_str = axiom_str[:-3]     
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
@@ -303,8 +314,37 @@ def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+
+    # I feel can be done as: (((W11 XOR W21) XOR W31) XOR W41) XOR ...
+    # where A XOR B = (A NAND B) AND (A OR B)
+    # As per textbook, take all combos of locations and check (~Wij OR ~Wij) AND (~Wij OR ~Wij) AND .... for all combos
+
+    # Trying textbook method first as that is probably more likely to work since it is given.
+
+    # Store all coords as a list
+    coords = []
+    for x in range(xmin, xmax + 1):
+        for y in range(ymin, ymax + 1):
+            coords.append((x,y))
+    
+    # extract pairs of coords from the list
+    for i in range(len(coords) - 1): # From 0 till end-1
+        for j in range(i+1, len(coords)): # From i + 1 till end
+            # print ( (coords[i], coords[j]) )
+            axiom_str += '(' + \
+                (falseSymb + wumpus_str(coords[i][0], coords[i][1])) + \
+                ' | ' + \
+                (falseSymb + wumpus_str(coords[j][0], coords[j][1])) + \
+                ')' + \
+                ' & '                
+
+    if axiom_str[-3 :] == ' & ':
+        axiom_str = axiom_str[:-3]          
+
+    # print axiom_str
+
     # Comment or delete the next line once this function has been implemented.
-    utils.print_not_implemented()
+    # utils.print_not_implemented()
     return axiom_str
 
 def axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t = 0):
