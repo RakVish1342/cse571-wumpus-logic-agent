@@ -178,8 +178,26 @@ t = 0
 kb.axiom_generator_only_one_action_axioms(t)
 print ("-----")
 
+print (">> axiom_generator_at_location_ssa")
+t = 0
+xmin = 1
+xmax = 4
+ymin = 1
+ymax = 3
 
+# Middle tiles
+x = 2
+y = 2
 
+# Corner tiles
+x = 4
+y = 1
 
+# Edge tiles
+x = 3
+y = 3
+
+kb.axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax)
+print ("-----")
 
 
