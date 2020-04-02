@@ -24,6 +24,7 @@ import minisat as msat
 from time import clock
 import sys
 
+import pdb
 
 #-------------------------------------------------------------------------------
 
@@ -61,6 +62,7 @@ class PropKB_SAT(PropKB):
 
     def ask(self, query):
         """ Assumes query is a single positive proposition """
+        # pdb.set_trace()
         if isinstance(query,str):
             query = expr(query)
         sT = minisat(self.clauses, None, variable=query, value=True, verbose=False)
@@ -309,6 +311,7 @@ class HybridWumpusAgent(Explorer):
         for x in range(1,self.width+1):
             for y in range(1,self.height+1):
                 query = expr(state_loc_str(x,y,self.time))
+                # pdb.set_trace()
                 result = self.kb.ask(query)
                 if result:
                     self.belief_location = loc_proposition_to_tuple('{0}'.format(query))

@@ -133,7 +133,8 @@ class PlanRouteProblem(search.Problem):
         Return list of allowed actions that can be made in state
         """
         "*** YOUR CODE HERE ***"
-        pass
+        return ['TurnRight', 'Forward']
+        # pass
 
 
     def result(self, state, action):
@@ -181,6 +182,12 @@ def test_PRP(initial):
                        (1,0),(1,1),(1,2),(1,3),
                        (2,0),            (2,3),
                        (3,0),(3,1),(3,2),(3,3)])
+
+# Looking at the first test case: "(0,0,0) : ['Forward', 'Forward', 'Forward', 'TurnRight', 'Forward', 'Forward']", 
+# I think the direction of North is not always UP, but in the direction of increasing y values. So in the mini grid 
+# given above, North is actually DOWN. Thus making F, F, F, TR, F, F reach 3,2 as the goal state. Else, if N was UP, 
+# then the sequence of actions would lead to Bump, Bump, Bump, turnRight, Forward, Forward, and lead to (0,2).
+
 
 
 #-------------------------------------------------------------------------------
