@@ -263,7 +263,7 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     # Similar to Breeze and Pit
     axiom_str = wumpus_str(x,y) + ' <=> '
 
-    axiom_str += ')' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
+    axiom_str += '(' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
     testLoc = [(x, y), (x+1, y), (x-1, y), (x, y+1), (x, y-1)] # should also include same location also as per docs above
     for i in range(len(testLoc)):
         loc = testLoc[i]
@@ -304,7 +304,8 @@ def axiom_generator_at_least_one_wumpus(xmin, xmax, ymin, ymax):
     # At least one Wumpus means any one location in the valid range should have a Wumpus.
     for x in range(xmin, xmax + 1):
         for y in range(ymin, ymax + 1):
-            if ( (x != 1) and (y != 1)): # Exclude the location 1,1 as it won't have wumpus by definition
+            # if ( (x != 1) and (y != 1) ): # Exclude the location 1,1 as it won't have wumpus by definition
+            if ( not ( (x == 1) and (y == 1)) ): # Exclude the location 1,1 as it won't have wumpus by definition
                 axiom_str += wumpus_str(x,y) + ' | '
 
     if axiom_str[-3 :] == ' | ':
@@ -342,7 +343,8 @@ def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
         for j in range(i+1, len(coords)): # From i + 1 till end
             # print ( (coords[i], coords[j]) )
              # Exclude pairs that work with the (1,1) location, as it won't have wumpus by definition
-            if ( ((coords[i][0] != 1) and (coords[i][1] != 1)) or ((coords[j][0] != 1) and (coords[j][1] != 1)) ):
+            # if ( ((coords[i][0] != 1) and (coords[i][1] != 1)) or ((coords[j][0] != 1) and (coords[j][1] != 1)) ):
+            if ( not ( ((coords[i][0] == 1) and (coords[i][1] == 1)) or ((coords[j][0] == 1) and (coords[j][1] == 1)) ) ):
                 axiom_str += '(' + \
                     (falseSymb + wumpus_str(coords[i][0], coords[i][1])) + \
                     ' | ' + \
@@ -756,7 +758,7 @@ def axiom_generator_wumpus_alive_ssa(t):
     # And s_manual says in previous edition, a combo of wumpus_alive and scream was used. The only reason it was 
     # replaced with more complex arrow related action was because wumpus_alive and scream combo could not be used 
     # for future planning (as it was a timestep too slow), and it could only be used for perception.
-    axiom_str = state_wumpus_alive_str(t+1) + '<=>' + \
+    axiom_str = state_wumpus_alive_str(t+1) + ' <=> ' + \
         '(' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t+1) + ')'
 
     # print(axiom_str)
