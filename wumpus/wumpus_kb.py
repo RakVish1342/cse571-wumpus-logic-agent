@@ -215,7 +215,7 @@ def axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax):
     # Bx,y <=> Pij | P(i+1)j | P(i-1)j | Pi(j+1) | Pi(j-1) for all valid i and j
     axiom_str = breeze_str(x,y) + ' <=> '
 
-    axiom_str += '(' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
+    axiom_str += ' ( ' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
     testLoc = [(x, y), (x+1, y), (x-1, y), (x, y+1), (x, y-1)] # should also include same location also as per docs above
     for i in range(len(testLoc)):
         loc = testLoc[i]
@@ -226,7 +226,7 @@ def axiom_generator_pits_and_breezes(x, y, xmin, xmax, ymin, ymax):
     # remove the last OR symbol
     if axiom_str[-3 :] == ' | ':
         axiom_str = axiom_str[:-3]
-    axiom_str += ')' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
+    axiom_str += ' ) ' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
 
     # # if none of the grid locations were valid and just the breeze_str_xy <=> gets generated, return empty string ''
     # if axiom_str[-5 :] == ' <=> ':
@@ -263,7 +263,7 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     # Similar to Breeze and Pit
     axiom_str = wumpus_str(x,y) + ' <=> '
 
-    axiom_str += '(' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
+    axiom_str += ' ( ' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
     testLoc = [(x, y), (x+1, y), (x-1, y), (x, y+1), (x, y-1)] # should also include same location also as per docs above
     for i in range(len(testLoc)):
         loc = testLoc[i]
@@ -273,7 +273,7 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     # remove the last OR symbol
     if axiom_str[-3 :] == ' | ':
         axiom_str = axiom_str[:-3]
-    axiom_str += ')' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional        
+    axiom_str += ' ) ' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional        
 
     # # if none of the grid locations were valid and just the breeze_str_xy <=> gets generated, return empty string ''
     # if axiom_str[-5 :] == ' <=> ':
@@ -345,11 +345,11 @@ def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
              # Exclude pairs that work with the (1,1) location, as it won't have wumpus by definition
             # if ( ((coords[i][0] != 1) and (coords[i][1] != 1)) or ((coords[j][0] != 1) and (coords[j][1] != 1)) ):
             if ( not ( ((coords[i][0] == 1) and (coords[i][1] == 1)) or ((coords[j][0] == 1) and (coords[j][1] == 1)) ) ):
-                axiom_str += '(' + \
+                axiom_str += ' ( ' + \
                     (falseSymb + wumpus_str(coords[i][0], coords[i][1])) + \
                     ' | ' + \
                     (falseSymb + wumpus_str(coords[j][0], coords[j][1])) + \
-                    ')' + \
+                    ' ) ' + \
                     ' & '
 
     if axiom_str[-3 :] == ' & ':
@@ -381,7 +381,7 @@ def axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t = 0):
                 axiom_str += falseSymb + state_loc_str(x,y,t) + ' & '
 
     if axiom_str[-3 :] == ' & ':
-        axiom_str = axiom_str[:-3]   
+        axiom_str = axiom_str[:-3]
 
     # print(axiom_str)
 
@@ -481,25 +481,25 @@ def axiom_generator_location_OK(x, y, t):
     # wumpus in that location AND dead
     # AND no pit in that location
     # axiom_str = state_OK_str(x,y,t) + ' <=> ' + \
-    #     '(' + \
-    #     '(' + falseSymb + wumpus_str(x,y) + ')' + ' | ' + \
-    #     '(' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) +  ')' + \
-    #     ')' + \
+    #     ' ( ' + \
+    #     ' ( ' + falseSymb + wumpus_str(x,y) + ' ) ' + ' | ' + \
+    #     ' ( ' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) +  ' ) ' + \
+    #     ' ) ' + \
     #     ' & ' + \
     #     falseSymb + pit_str(x,y)
 
     # As per textbook (pg. 268)
     axiom_str = state_OK_str(x,y,t) + ' <=> ' + \
-        '(' + \
-        '(' + falseSymb + wumpus_str(x,y) + ' | ' + '(' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) + ')' +  ')' + \
+        ' ( ' + \
+        ' ( ' + falseSymb + wumpus_str(x,y) + ' | ' + ' ( ' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) + ' ) ' +  ' ) ' + \
         ' & ' + \
         falseSymb + pit_str(x,y) + \
-        ')'       
+        ' ) '       
     # Old version:
-        # '(' + \
-        # falseSymb + '(' + wumpus_str(x,y) + ' & ' + state_wumpus_alive_str(t) +  ')' + ' & ' + \
+        # ' ( ' + \
+        # falseSymb + ' ( ' + wumpus_str(x,y) + ' & ' + state_wumpus_alive_str(t) +  ' ) ' + ' & ' + \
         # falseSymb + pit_str(x,y) + \
-        # ')'
+        # ' ) '
 
 
     # print(axiom_str)
@@ -530,7 +530,7 @@ def axiom_generator_breeze_percept_and_location_property(x, y, t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # From the testbook. Page 266, relating atemporals with temporals/fluents
-    axiom_str = state_loc_str(x,y,t) + ' >> ' + '(' + percept_breeze_str(t) + ' <=> ' + breeze_str(x,y) + ')'
+    axiom_str = state_loc_str(x,y,t) + ' >> ' + ' ( ' + percept_breeze_str(t) + ' <=> ' + breeze_str(x,y) + ' ) '
 
     # print(axiom_str)
 
@@ -556,7 +556,7 @@ def axiom_generator_stench_percept_and_location_property(x, y, t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # From the testbook. Page 266, relating atemporals with temporals/fluents
-    axiom_str = state_loc_str(x,y,t) + ' >> ' + '(' + percept_stench_str(t) + ' <=> ' + stench_str(x,y) + ')'
+    axiom_str = state_loc_str(x,y,t) + ' >> ' + ' ( ' + percept_stench_str(t) + ' <=> ' + stench_str(x,y) + ' ) '
 
     # print(axiom_str)
 
@@ -602,93 +602,84 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     # Central Tiles
     if( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 >= ymin) and (y+1 <= ymax) ): # All ranges lie in valid space/limits
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
 
     # Corner Tiles
     # Lower Left
     elif( (x-1 < xmin) and (y-1 < ymin) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Upper Left
     elif( (x-1 < xmin) and (y+1 > ymax) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Upper Right
     elif( (x+1 > xmax) and (y+1 > ymax) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Lower Right
     elif( (x+1 > xmax) and (y-1 < ymin) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
 
     # Edge Tiles
     # Lower Edge
     elif( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 < ymin) ): # only x lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Upper Edge
     elif( (x-1 >= xmin) and (x+1 <= xmax) and (y+1 > ymax) ): # only x lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Left Edge
     elif( (x-1 < xmin) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x+1,y,t) + ' & ' + '(' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
     # Right Edge
     elif( (x+1 > xmax) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_loc_str(x-1,y,t) + ' & ' + '(' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y-1,t) + ' & ' + '(' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y+1,t) + ' & ' + '(' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ')' + ')' + ' & ' + \
-        '(' + state_loc_str(x,y,t) + ' & ' + '(' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ')' + ')' + ' & ' + \
-        ')'
-        axiom_str = axiom_str[:-3] # remove the trailing &/| conjuction symbol
+        ' ( ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ) '
 
     # print(axiom_str)
 
@@ -730,7 +721,7 @@ def axiom_generator_have_arrow_ssa(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str = state_have_arrow_str(t+1) + ' <=> ' + '(' + state_have_arrow_str(t) + ' & ' + '(' + falseSymb+action_shoot_str(t) + ')' + ')'
+    axiom_str = state_have_arrow_str(t+1) + ' <=> ' + ' ( ' + state_have_arrow_str(t) + ' & ' + ' ( ' + falseSymb+action_shoot_str(t) + ' ) ' + ' ) '
 
     # print(axiom_str)
 
@@ -752,14 +743,14 @@ def axiom_generator_wumpus_alive_ssa(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # axiom_str = state_wumpus_alive_str(t+1) + '<=>' + \
-    #     '(' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t) + ')'
+    #     ' ( ' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t) + ' ) '
     # t+1 for scream since wumpus will scream in next time step, also, this t+1 should be valid since
     # Location ssa on page 267 Eqn. 7.3 uses Bump_t+1 
     # And s_manual says in previous edition, a combo of wumpus_alive and scream was used. The only reason it was 
     # replaced with more complex arrow related action was because wumpus_alive and scream combo could not be used 
     # for future planning (as it was a timestep too slow), and it could only be used for perception.
     axiom_str = state_wumpus_alive_str(t+1) + ' <=> ' + \
-        '(' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t+1) + ')'
+        ' ( ' + state_wumpus_alive_str(t) +  ' & ' + falseSymb+percept_scream_str(t+1) + ' ) '
 
     # print(axiom_str)
 
@@ -782,11 +773,11 @@ def axiom_generator_heading_north_ssa(t):
 
     axiom_str += \
         state_heading_north_str(t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_heading_north_str(t) + ' & ' + falseSymb + '(' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ')' +  ')' + ' | ' + \
-        '(' + state_heading_west_str(t) + ' & ' + action_turn_right_str(t) +  ')' + ' | ' + \
-        '(' + state_heading_east_str(t) + ' & ' + action_turn_left_str(t) +  ')' + \
-        ')'
+        ' ( ' + \
+        ' ( ' + state_heading_north_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
+        ' ) '
 
     # print(axiom_str)
 
@@ -806,11 +797,11 @@ def axiom_generator_heading_east_ssa(t):
 
     axiom_str += \
         state_heading_east_str(t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_heading_east_str(t) + ' & ' + falseSymb + '(' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ')' +  ')' + ' | ' + \
-        '(' + state_heading_north_str(t) + ' & ' + action_turn_right_str(t) +  ')' + ' | ' + \
-        '(' + state_heading_south_str(t) + ' & ' + action_turn_left_str(t) +  ')' + \
-        ')'
+        ' ( ' + \
+        ' ( ' + state_heading_east_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
+        ' ) '
 
     # print(axiom_str)
 
@@ -830,11 +821,11 @@ def axiom_generator_heading_south_ssa(t):
 
     axiom_str += \
         state_heading_south_str(t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_heading_south_str(t) + ' & ' + falseSymb + '(' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ')' +  ')' + ' | ' + \
-        '(' + state_heading_east_str(t) + ' & ' + action_turn_right_str(t) +  ')' + ' | ' + \
-        '(' + state_heading_west_str(t) + ' & ' + action_turn_left_str(t) +  ')' + \
-        ')'
+        ' ( ' + \
+        ' ( ' + state_heading_south_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
+        ' ) '
 
     # print(axiom_str)
 
@@ -854,11 +845,11 @@ def axiom_generator_heading_west_ssa(t):
 
     axiom_str += \
         state_heading_west_str(t+1) + ' <=> ' + \
-        '(' + \
-        '(' + state_heading_west_str(t) + ' & ' + falseSymb + '(' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ')' +  ')' + ' | ' + \
-        '(' + state_heading_south_str(t) + ' & ' + action_turn_right_str(t) +  ')' + ' | ' + \
-        '(' + state_heading_north_str(t) + ' & ' + action_turn_left_str(t) +  ')' + \
-        ')'
+        ' ( ' + \
+        ' ( ' + state_heading_west_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
+        ' ) '
 
     # print(axiom_str)
 
@@ -897,8 +888,8 @@ def axiom_generator_heading_only_north(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     axiom_str += state_heading_north_str(t) + ' & ' + \
-        falseSymb + '(' + state_heading_south_str(t) + ' | ' + state_heading_east_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ')'
+        falseSymb + ' ( ' + state_heading_south_str(t) + ' | ' + state_heading_east_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ' ) '
 
     # print(axiom_str)
 
@@ -916,8 +907,8 @@ def axiom_generator_heading_only_east(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     axiom_str += state_heading_east_str(t) + ' & ' + \
-        falseSymb + '(' + state_heading_south_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ')'
+        falseSymb + ' ( ' + state_heading_south_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ' ) '
 
     # print(axiom_str)
 
@@ -935,8 +926,8 @@ def axiom_generator_heading_only_south(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     axiom_str += state_heading_south_str(t) + ' & ' + \
-        falseSymb + '(' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ')'
+        falseSymb + ' ( ' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_west_str(t) + ' ) '
 
     # print(axiom_str)
     
@@ -954,8 +945,8 @@ def axiom_generator_heading_only_west(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     axiom_str += state_heading_west_str(t) + ' & ' + \
-        falseSymb + '(' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_south_str(t) + ')'
+        falseSymb + ' ( ' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
+        ' | ' +  state_heading_south_str(t) + ' ) '
 
     # print(axiom_str)
 
@@ -979,38 +970,38 @@ def axiom_generator_only_one_action_axioms(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     axiom_str += \
-    '(' + action_forward_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')' 
+    ' ( ' + action_forward_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' 
     axiom_str += ' | '
 
     axiom_str += \
-    '(' + action_climb_str(t) + ' & ' + falseSymb + '(' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    ' ( ' + action_climb_str(t) + ' & ' + falseSymb + ' ( ' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
     axiom_str += ' | '        
 
     axiom_str += \
-    '(' + action_grab_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    ' ( ' + action_grab_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
     axiom_str += ' | '
 
     axiom_str += \
-    '(' + action_shoot_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    ' ( ' + action_shoot_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
     axiom_str += ' | '  
 
     axiom_str += \
-    '(' + action_turn_left_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    ' ( ' + action_turn_left_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
     axiom_str += ' | '
 
     axiom_str += \
-    '(' + action_turn_right_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ')' + ')'
+    ' ( ' + action_turn_right_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
     axiom_str += ' | '
 
     axiom_str += \
-    '(' + action_wait_str(t) + ' & ' + falseSymb + '(' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ')' + ')'
+    ' ( ' + action_wait_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ' ) ' + ' ) '
 
     # print(axiom_str)
 
