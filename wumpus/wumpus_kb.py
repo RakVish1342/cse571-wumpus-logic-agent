@@ -17,7 +17,8 @@
 # python project, see https://github.com/netom/satispy .
 
 import utils
-import pdb
+
+falseSymb = '~'
 
 #-------------------------------------------------------------------------------
 # Wumpus Propositions
@@ -134,7 +135,6 @@ proposition_bases_all = [proposition_bases_atemporal_location,
                          proposition_bases_state_fluents,
                          proposition_bases_actions]
 
-falseSymb = '~'
 
 #-------------------------------------------------------------------------------
 # Axiom Generator: Current Percept Sentence
@@ -177,7 +177,6 @@ def axiom_generator_percept_sentence(t, tvec):
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
     return axiom_str
-
 
 #-------------------------------------------------------------------------------
 # Axiom Generators: Initial Axioms
@@ -261,14 +260,16 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
     # Similar to Breeze and Pit
-    axiom_str = wumpus_str(x,y) + ' <=> '
+    # axiom_str = wumpus_str(x,y) + ' <=> '
+    axiom_str = stench_str(x,y) + ' <=> '
 
     axiom_str += ' ( ' # overall bracket for RHS to prevent clubbing just the first term with the bidirectional
     testLoc = [(x, y), (x+1, y), (x-1, y), (x, y+1), (x, y-1)] # should also include same location also as per docs above
     for i in range(len(testLoc)):
         loc = testLoc[i]
         if (loc[0] >= xmin and loc[0] <= xmax and loc[1] >= ymin and loc[1] <= ymax):
-            axiom_str += stench_str(loc[0], loc[1]) + ' | '
+            # axiom_str += stench_str(loc[0], loc[1]) + ' | '
+            axiom_str += wumpus_str(loc[0], loc[1]) + ' | '
 
     # remove the last OR symbol
     if axiom_str[-3 :] == ' | ':
@@ -284,6 +285,7 @@ def axiom_generator_wumpus_and_stench(x, y, xmin, xmax, ymin, ymax):
     return axiom_str
 
 def generate_wumpus_and_stench_axioms(xmin, xmax, ymin, ymax):
+    #utils.print_not_implemented()
     axioms = []
     for x in range(xmin, xmax + 1):
         for y in range(ymin, ymax + 1):
@@ -432,9 +434,10 @@ def axiom_generator_have_arrow_and_wumpus_alive(t = 0):
 
 
 def initial_wumpus_axioms(xi, yi, width, height, heading='east'):
+    #utils.print_not_implemented()
     """
     Generate all of the initial wumpus axioms
-    
+
     xi,yi = initial location
     width,height = dimensions of world
     heading = str representation of the initial agent heading
@@ -442,7 +445,7 @@ def initial_wumpus_axioms(xi, yi, width, height, heading='east'):
     axioms = [axiom_generator_initial_location_assertions(xi, yi)]
     axioms.extend(generate_pit_and_breeze_axioms(1, width, 1, height))
     axioms.extend(generate_wumpus_and_stench_axioms(1, width, 1, height))
-    
+
     axioms.append(axiom_generator_at_least_one_wumpus(1, width, 1, height))
     axioms.append(axiom_generator_at_most_one_wumpus(1, width, 1, height))
 
@@ -450,7 +453,7 @@ def initial_wumpus_axioms(xi, yi, width, height, heading='east'):
     axioms.append(axiom_generator_only_one_heading(heading))
 
     axioms.append(axiom_generator_have_arrow_and_wumpus_alive())
-    
+
     return axioms
 
 
@@ -494,13 +497,12 @@ def axiom_generator_location_OK(x, y, t):
         ' ( ' + falseSymb + wumpus_str(x,y) + ' | ' + ' ( ' + wumpus_str(x,y) + ' & ' + falseSymb + state_wumpus_alive_str(t) + ' ) ' +  ' ) ' + \
         ' & ' + \
         falseSymb + pit_str(x,y) + \
-        ' ) '       
+        ' ) '
     # Old version:
         # ' ( ' + \
         # falseSymb + ' ( ' + wumpus_str(x,y) + ' & ' + state_wumpus_alive_str(t) +  ' ) ' + ' & ' + \
         # falseSymb + pit_str(x,y) + \
         # ' ) '
-
 
     # print(axiom_str)
      
@@ -514,7 +516,6 @@ def generate_square_OK_axioms(t, xmin, xmax, ymin, ymax):
     if utils.all_empty_strings(axioms):
         utils.print_not_implemented('axiom_generator_location_OK')
     return filter(lambda s: s != '', axioms)
-
 
 #-------------------------------------------------------------------------------
 # Connection between breeze / stench percepts and atemporal location properties
@@ -537,6 +538,7 @@ def axiom_generator_breeze_percept_and_location_property(x, y, t):
     return axiom_str
 
 def generate_breeze_percept_and_location_axioms(t, xmin, xmax, ymin, ymax):
+    #utils.print_not_implemented()
     axioms = []
     for x in range(xmin, xmax + 1):
         for y in range(ymin, ymax + 1):
@@ -563,6 +565,7 @@ def axiom_generator_stench_percept_and_location_property(x, y, t):
     return axiom_str
 
 def generate_stench_percept_and_location_axioms(t, xmin, xmax, ymin, ymax):
+    #utils.print_not_implemented()
     axioms = []
     for x in range(xmin, xmax + 1):
         for y in range(ymin, ymax + 1):
@@ -686,6 +689,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     return axiom_str
 
 def generate_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax, heading):
+    #utils.print_not_implemented()
     """
     The full at_location SSA converts to a fairly large CNF, which in
     turn causes the KB to grow very fast, slowing overall inference.
@@ -857,7 +861,10 @@ def axiom_generator_heading_west_ssa(t):
     # utils.print_not_implemented()
     return axiom_str
 
+
 def generate_heading_ssa(t):
+
+    #utils.print_not_implemented()
     """
     Generates all of the heading SSAs.
     """
@@ -867,6 +874,7 @@ def generate_heading_ssa(t):
             axiom_generator_heading_west_ssa(t)]
 
 def generate_non_location_ssa(t):
+    #utils.print_not_implemented()
     """
     Generate all non-location-based SSAs
     """
@@ -887,9 +895,11 @@ def axiom_generator_heading_only_north(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str += state_heading_north_str(t) + ' & ' + \
+    axiom_str += state_heading_north_str(t) + ' <=> ' + \
+        '(' + \
         falseSymb + ' ( ' + state_heading_south_str(t) + ' | ' + state_heading_east_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ' ) '
+        ' | ' +  state_heading_west_str(t) + ' ) ' + \
+        ')'
 
     # print(axiom_str)
 
@@ -906,9 +916,11 @@ def axiom_generator_heading_only_east(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str += state_heading_east_str(t) + ' & ' + \
+    axiom_str += state_heading_east_str(t) + ' <=> ' + \
+        '(' + \
         falseSymb + ' ( ' + state_heading_south_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ' ) '
+        ' | ' +  state_heading_west_str(t) + ' ) ' + \
+        ')'
 
     # print(axiom_str)
 
@@ -925,9 +937,12 @@ def axiom_generator_heading_only_south(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str += state_heading_south_str(t) + ' & ' + \
+    axiom_str += state_heading_south_str(t) + ' <=> ' + \
+        '(' + \
         falseSymb + ' ( ' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_west_str(t) + ' ) '
+        ' | ' +  state_heading_west_str(t) + ' ) ' + \
+        ')'
+
 
     # print(axiom_str)
     
@@ -944,9 +959,11 @@ def axiom_generator_heading_only_west(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str += state_heading_west_str(t) + ' & ' + \
+    axiom_str += state_heading_west_str(t) + ' <=> ' + \
+        '(' + \
         falseSymb + ' ( ' + state_heading_east_str(t) + ' | ' + state_heading_north_str(t) + \
-        ' | ' +  state_heading_south_str(t) + ' ) '
+        ' | ' +  state_heading_south_str(t) + ' ) ' + \
+        ')'
 
     # print(axiom_str)
 
@@ -955,6 +972,7 @@ def axiom_generator_heading_only_west(t):
     return axiom_str
 
 def generate_heading_only_one_direction_axioms(t):
+    #utils.print_not_implemented()
     return [axiom_generator_heading_only_north(t),
             axiom_generator_heading_only_east(t),
             axiom_generator_heading_only_south(t),
@@ -969,39 +987,39 @@ def axiom_generator_only_one_action_axioms(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
-    axiom_str += \
-    ' ( ' + action_forward_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' 
-    axiom_str += ' | '
+    # axiom_str += \
+    # ' ( ' + action_forward_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '  + ')'
+    # axiom_str += ' | '
 
-    axiom_str += \
-    ' ( ' + action_climb_str(t) + ' & ' + falseSymb + ' ( ' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
-    axiom_str += ' | '        
+    # axiom_str += \
+    # ' ( ' + action_climb_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
+    # axiom_str += ' | '        
 
-    axiom_str += \
-    ' ( ' + action_grab_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
-    axiom_str += ' | '
+    # axiom_str += \
+    # ' ( ' + action_grab_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
+    # axiom_str += ' | '
 
-    axiom_str += \
-    ' ( ' + action_shoot_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
-    axiom_str += ' | '  
+    # axiom_str += \
+    # ' ( ' + action_shoot_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
+    # axiom_str += ' | '  
 
-    axiom_str += \
-    ' ( ' + action_turn_left_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
-    axiom_str += ' | '
+    # axiom_str += \
+    # ' ( ' + action_turn_left_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
+    # axiom_str += ' | '
 
-    axiom_str += \
-    ' ( ' + action_turn_right_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '
-    axiom_str += ' | '
+    # axiom_str += \
+    # ' ( ' + action_turn_right_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
+    # axiom_str += ' | '
 
-    axiom_str += \
-    ' ( ' + action_wait_str(t) + ' & ' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
-        action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ' ) ' + ' ) '
+    # axiom_str += \
+    # ' ( ' + action_wait_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
+    #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ' ) ' + ' ) ' + ')'
 
     # print(axiom_str)
 
@@ -1011,11 +1029,12 @@ def axiom_generator_only_one_action_axioms(t):
 
 
 def generate_mutually_exclusive_axioms(t):
+    #utils.print_not_implemented()
     """
     Generate all time-based mutually exclusive axioms.
     """
     axioms = []
-    
+
     # must be t+1 to constrain which direction could be heading _next_
     axioms.extend(generate_heading_only_one_direction_axioms(t + 1))
 
