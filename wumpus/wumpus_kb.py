@@ -1053,7 +1053,7 @@ def axiom_generator_only_one_action_axioms(t):
         elif act == 'Wait':
             return action_wait_str(t)
         else:
-            print(">>> ERROR: ACTION NOT FOUND")
+            print(">>> ERROR: ACTION in wumpus_kb.py NOT FOUND")
             return None
 
     # At least one action:

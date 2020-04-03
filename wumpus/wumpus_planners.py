@@ -20,6 +20,8 @@ from wumpus_environment import *
 from wumpus_kb import *
 import search
 
+import pdb
+
 #-------------------------------------------------------------------------------
 # Distance fn
 #-------------------------------------------------------------------------------
@@ -126,14 +128,103 @@ class PlanRouteProblem(search.Problem):
         Heuristic that will be used by search.astar_search()
         """
         "*** YOUR CODE HERE ***"
-        pass
+        dists = []
+        for goal in self.goals:
+            dists.append( manhattan_distance_with_heading(node.state, goal) )
+
+        return min(dists)
+
+        # pass
 
     def actions(self, state):
         """
         Return list of allowed actions that can be made in state
         """
         "*** YOUR CODE HERE ***"
-        return ['TurnRight', 'Forward']
+        pdb.set_trace()
+        print "actions"
+        x = state[0]
+        y = state[1]
+        heading = state[2]
+
+        allPossActions = ['Forward', 'TurnLeft', 'TurnRight']
+        turnActions = ['TurnLeft', 'TurnRight']
+
+        # Can't use this since min and max info is not accessible here. 
+        # # Central Tiles
+        # if( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 >= ymin) and (y+1 <= ymax) ): # All ranges lie in valid space/limits
+        #     return allPossActions
+
+        # # Corner Tiles
+        # # Lower Left
+        # elif( (x-1 < xmin) and (y-1 < ymin) ):
+        #     if(heading == 1 or heading == 2): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+        # # Upper Left
+        # elif( (x-1 < xmin) and (y+1 > ymax) ):
+        #     if(heading == 1 or heading == 0): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+        # # Upper Right
+        # elif( (x+1 > xmax) and (y+1 > ymax) ):
+        #     if(heading == 3 or heading == 0): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+        # # Lower Right
+        # elif( (x+1 > xmax) and (y-1 < ymin) ):
+        #     if(heading == 3 or heading == 2): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+
+        # # Edge Tiles
+        # # Lower Edge
+        # elif( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 < ymin) ): # only x lies in the valid space
+        #     if(heading == 2): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+        # # Upper Edge
+        # elif( (x-1 >= xmin) and (x+1 <= xmax) and (y+1 > ymax) ): # only x lies in the valid space
+        #     if(heading == 0): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions        
+        # # Left Edge
+        # elif( (x-1 < xmin) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
+        #     if(heading == 1): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+        # # Right Edge
+        # elif( (x+1 > xmax) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
+        #     if(heading == 3): # Facing walls
+        #         return turnActions
+        #     else:
+        #         return allPossActions
+
+        # So, make use of self.allowed, which has all the tiles that can be traversed.
+        # Based on the heading decide what the forward action's resultant state will be. 
+        # If this result is in self.allowed, then pass allPossActions. Else pass turnActions
+
+        if heading == 0:
+            nextFwdState = (x, y+1)
+        elif heading == 1:
+            nextFwdState = (x-1, y)
+        elif heading == 2:
+            nextFwdState = (x, y-1)
+        if heading == 3:
+            nextFwdState = (x+1, y)
+
+        if nextFwdState in self.allowed:    
+            return allPossActions
+        else:
+            return turnActions
+
         # pass
 
 
@@ -142,14 +233,78 @@ class PlanRouteProblem(search.Problem):
         Return the new state after applying action to state
         """
         "*** YOUR CODE HERE ***"
-        pass
+
+        # print action # So clearly the action being given is actually the effective/resultant location
+        # pdb.set_trace()
+        print "result"
+
+        # xdiff = action[0] - state[0]
+        # ydiff = action[1] - state[1]
+        # if (xdiff == 0 and ydiff == 0): # no change. So return same heading as state
+        #     return (action[0], action[1], state[2])
+        # elif (xdiff < 0): # heading west. So heading = 1
+        #     return (action[0], action[1], 1)
+        # elif (xdiff > 0): # heading east. So heading = 3
+        #     return (action[0], action[1], 3)
+        # elif (ydiff < 0): # heading south. So heading = 2
+        #     return (action[0], action[1], 2)
+        # elif (ydiff > 0): # heading north. So heading = 0
+        #     return (action[0], action[1], 0)        
+
+        # return action
+
+        x = state[0]
+        y = state[1]
+        heading = state[2]
+        if action == 'Forward':
+            if heading == 0: # north
+                return (x, y+1, heading)
+            elif heading == 1: # west
+                return (x-1, y, heading)
+            elif heading == 2: # south
+                return (x, y-1, heading)
+            elif heading == 3: # east
+                return (x+1, y, heading)
+        elif action == 'TurnLeft':
+            if heading == 0: # was north
+                return (x, y, 1)
+            elif heading == 1: # was west
+                return (x, y, 2)
+            elif heading == 2: # was south
+                return (x, y, 3)
+            elif heading == 3: # was east
+                return (x, y, 0)
+        elif action == 'TurnRight':
+            if heading == 0: # was north
+                return (x, y, 3)
+            elif heading == 1: # was west
+                return (x, y, 0)
+            elif heading == 2: # was south
+                return (x, y, 1)
+            elif heading == 3: # was east
+                return (x, y, 2)                
+        elif action == 'Grab':
+            return state
+        elif action == 'Shoot':
+            return state
+        elif action == 'Climb':
+            return state
+        elif action == 'Wait':
+            return state
+        else:
+            print(">>> ERROR: ACTION in wumpus_planners.py NOT FOUND")
+            return None
+
+        # pass
 
     def goal_test(self, state):
         """
         Return True if state is a goal state
         """
         "*** YOUR CODE HERE ***"
-        return True
+        return state in self.goals
+
+        # return True
 
 #-------------------------------------------------------------------------------
 
