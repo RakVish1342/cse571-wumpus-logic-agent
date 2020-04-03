@@ -613,9 +613,9 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     if( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 >= ymin) and (y+1 <= ymax) ): # All ranges lie in valid space/limits
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
 
@@ -624,32 +624,32 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     elif( (x-1 < xmin) and (y-1 < ymin) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Left
     elif( (x-1 < xmin) and (y+1 > ymax) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Right
     elif( (x+1 > xmax) and (y+1 > ymax) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Lower Right
     elif( (x+1 > xmax) and (y-1 < ymin) ):
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
 
@@ -658,36 +658,36 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     elif( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 < ymin) ): # only x lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Edge
     elif( (x-1 >= xmin) and (x+1 <= xmax) and (y+1 > ymax) ): # only x lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Left Edge
     elif( (x-1 < xmin) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
     # Right Edge
     elif( (x+1 > xmax) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' & ' + \
+        ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
         ' ) '
 
