@@ -328,9 +328,16 @@ def axiom_generator_at_most_one_wumpus(xmin, xmax, ymin, ymax):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
 
-    # I feel can be done as: (((W11 XOR W21) XOR W31) XOR W41) XOR ...
+    # I feel can be done as: (((W11 XOR W21) XOR W31) XOR W41) XOR ... where XOR is ^ symbol as neen from logic.py file
     # where A XOR B = (A NAND B) AND (A OR B)
-    # As per textbook, take all combos of locations and check (~Wij OR ~Wij) AND (~Wij OR ~Wij) AND .... for all combos
+    # This however takes tooooooo long to get evaluated. 
+    # Similarly, enumerating all conditions like: (~Wij & ~Wij & ~Wij) | (Wij & ~Wij & ~Wij) | (~Wij & Wij & ~Wij) | (~Wij & ~Wij & Wij)
+    # viz basically to state that 0 or 1 number of wumpus can be alive also takes toooo long for evaluation
+
+    # Reason for length of the execution when the main connectives are OR conditions is that now it needs to evauate all the clauses to 
+    # understand if the entire statement is effectively true or false.
+    
+    # Therefore following textbook, take all combos of locations and check (~Wij OR ~Wij) AND (~Wij OR ~Wij) AND .... for all combos
 
     # Trying textbook method first as that is probably more likely to work since it is given.
 
@@ -778,7 +785,8 @@ def axiom_generator_heading_north_ssa(t):
     axiom_str += \
         state_heading_north_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_north_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_north_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
+        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -802,7 +810,8 @@ def axiom_generator_heading_east_ssa(t):
     axiom_str += \
         state_heading_east_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_east_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_east_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
+        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -826,7 +835,8 @@ def axiom_generator_heading_south_ssa(t):
     axiom_str += \
         state_heading_south_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_south_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_south_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
+        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -850,7 +860,8 @@ def axiom_generator_heading_west_ssa(t):
     axiom_str += \
         state_heading_west_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_west_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_west_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
+        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -987,46 +998,95 @@ def axiom_generator_only_one_action_axioms(t):
     """
     axiom_str = ''
     "*** YOUR CODE HERE ***"
+    # OLD Implementation with Full and Explicit Clauses
     # axiom_str += \
     # ' ( ' + action_forward_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) '  + ')'
-    # axiom_str += ' | '
+    # axiom_str += ' & '
 
     # axiom_str += \
     # ' ( ' + action_climb_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
-    # axiom_str += ' | '        
+    # axiom_str += ' & '        
 
     # axiom_str += \
     # ' ( ' + action_grab_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
-    # axiom_str += ' | '
+    # axiom_str += ' & '
 
     # axiom_str += \
     # ' ( ' + action_shoot_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_forward_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
-    # axiom_str += ' | '  
+    # axiom_str += ' & '  
 
     # axiom_str += \
     # ' ( ' + action_turn_left_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_forward_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
-    # axiom_str += ' | '
+    # axiom_str += ' & '
 
     # axiom_str += \
     # ' ( ' + action_turn_right_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_forward_str(t) + ' | ' + action_wait_str(t) + ' ) ' + ' ) ' + ')'
-    # axiom_str += ' | '
+    # axiom_str += ' & '
 
     # axiom_str += \
     # ' ( ' + action_wait_str(t) + ' <=> ' + '(' + falseSymb + ' ( ' + action_climb_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + \
     #     action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_forward_str(t) + ' ) ' + ' ) ' + ')'
+
+    # Similar to At Most One Wumpus, here also evaluation time is really large if OR conditions are used. So, need to try to encode it in pairs:
+    # So, similar to (at_least_one_wumpus)  AND (at_most_one_wumpus) that was done in textbook to make sure the result was exactly_one_wumpus, here also 
+    # should do the same.
+
+    def getActStr(act, t):
+        if act == 'Forward':
+            return action_forward_str(t)
+        elif act == 'Grab':
+            return action_grab_str(t)
+        elif act == 'Shoot':
+            return action_shoot_str(t)
+        elif act == 'Climb':
+            return action_climb_str(t)
+        elif act == 'TurnLeft':
+            return action_turn_left_str(t)
+        elif act == 'TurnRight':
+            return action_turn_right_str(t)
+        elif act == 'Wait':
+            return action_wait_str(t)
+        else:
+            print(">>> ERROR: ACTION NOT FOUND")
+            return None
+
+    # At least one action:
+    axiom_str += '(' + action_forward_str(t) + ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_climb_str(t) + \
+        ' | ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + ' | ' + action_wait_str(t) + ')' + ' & '
+
+    # At most one action:
+    actions = ['Forward', 'Grab', 'Shoot', 'Climb', 'TurnLeft', 'TurnRight', 'Wait']
+    actionpairs = []
+    for i in range(len(actions)):
+        for j in range(i+1, len(actions)-1):
+            actionpairs.append( (actions[i], actions[j]) )
+    
+    for actpair in actionpairs:
+        act1 = actpair[0]
+        act2 = actpair[1]
+
+        axiom_str += '('
+        axiom_str += falseSymb + getActStr(act1, t)
+        axiom_str += ' | '
+        axiom_str += falseSymb + getActStr(act2, t)
+        axiom_str += ')'
+        axiom_str += ' & '
+
+    # Delete the last &        
+    if axiom_str[-3 :] == ' & ':
+        axiom_str = axiom_str[:-3]
 
     # print(axiom_str)
 
     # Comment or delete the next line once this function has been implemented.
     # utils.print_not_implemented()
     return axiom_str
-
 
 def generate_mutually_exclusive_axioms(t):
     #utils.print_not_implemented()
