@@ -306,6 +306,7 @@ class PlanRouteProblem(search.Problem):
         # pdb.set_trace()
         stateLoc = (state[0], state[1])
         return stateLoc in self.goals
+        # return state in self.goals
 
         # return True
 
@@ -396,28 +397,141 @@ class PlanShotProblem(search.Problem):
         Heuristic that will be used by search.astar_search()
         """
         "*** YOUR CODE HERE ***"
-        pass
+        dists = []
+        for goal in self.goals:
+            # pdb.set_trace()
+            dists.append( manhattan_distance_with_heading(node.state, goal) )
+
+        return min(dists)
+        
+        # pass
 
     def actions(self, state):
         """
         Return list of allowed actions that can be made in state
         """
         "*** YOUR CODE HERE ***"
-        pass
+        # print "actions"
+        x = state[0]
+        y = state[1]
+        heading = state[2]
+
+        allPossActions = ['Forward', 'Shoot', 'TurnLeft', 'TurnRight']
+        turnActions = ['TurnLeft', 'TurnRight']
+
+        if heading == 0:
+            nextFwdState = (x, y+1)
+        elif heading == 1:
+            nextFwdState = (x-1, y)
+        elif heading == 2:
+            nextFwdState = (x, y-1)
+        if heading == 3:
+            nextFwdState = (x+1, y)
+
+        if nextFwdState in self.allowed:    
+            return allPossActions
+        else:
+            return turnActions
+
+        # pass
 
     def result(self, state, action):
         """
         Return the new state after applying action to state
         """
         "*** YOUR CODE HERE ***"
-        pass
+        x = state[0]
+        y = state[1]
+        heading = state[2]
+        if action == 'Forward':
+            if heading == 0: # north
+                return (x, y+1, heading)
+            elif heading == 1: # west
+                return (x-1, y, heading)
+            elif heading == 2: # south
+                return (x, y-1, heading)
+            elif heading == 3: # east
+                return (x+1, y, heading)
+        elif action == 'TurnLeft':
+            if heading == 0: # was north
+                return (x, y, 1)
+            elif heading == 1: # was west
+                return (x, y, 2)
+            elif heading == 2: # was south
+                return (x, y, 3)
+            elif heading == 3: # was east
+                return (x, y, 0)
+        elif action == 'TurnRight':
+            if heading == 0: # was north
+                return (x, y, 3)
+            elif heading == 1: # was west
+                return (x, y, 0)
+            elif heading == 2: # was south
+                return (x, y, 1)
+            elif heading == 3: # was east
+                return (x, y, 2)                
+        elif action == 'Grab':
+            return state
+        elif action == 'Shoot':
+            return state
+        elif action == 'Climb':
+            return state
+        elif action == 'Wait':
+            return state
+        else:
+            print(">>> ERROR: ACTION in wumpus_planners.py NOT FOUND")
+            return None
+
+        # pass
 
     def goal_test(self, state):
         """
         Return True if state is a goal state
         """
         "*** YOUR CODE HERE ***"
-        return True
+        # pdb.set_trace()
+        # import traceback
+        # for line in traceback.format_stack():
+        #     print(line.strip())
+
+        pdb.set_trace()
+
+        # If current state in goal states, false condition. Should be neighbouring state
+        if state in self.goals:
+            return False
+
+        # # Unsure of Wumpus location
+        # if (len(self.goals) > 1):
+        #     return False
+        # elif (len(self.goals) == 1):
+
+        else:
+            goal = self.goals[0]
+            xdiff = goal[0] - state[0]
+            ydiff = goal[1] - state[1] 
+            heading = state[2]
+
+            # If our state is in a neighbouring state (which is also not a diagonal location)
+            if ( ( xdiff ==1 or ydiff == 1) and (not (xdiff == 1 and ydiff == 1)) ):
+                # Check to ensure the heading is toward the wumpus
+                if (xdiff == 0):
+                    if(ydiff > 0 and heading == 0): # If facing north and wumpus is to the north
+                        return True
+                    elif(ydiff < 0 and heading == 2): # If facing south and wumpus is to the south
+                        return True
+                elif (ydiff == 0):
+                    if(xdiff > 0 and heading == 3): # If facing east and wumpus is to the east
+                        return True
+                    elif(xdiff < 0 and heading == 1): # If facing west and wumpus is to the west
+                        return True
+                else:
+                    print(">>> WARNING: Unable to shoot. Near Wumpus but not facing it.")
+            # Not in a neighbouring state
+            else:
+                return False
+        # else:
+        #     print(">>> ERROR: No potential locations for Wumpus")
+        #     return False         
 
 #-------------------------------------------------------------------------------
 
