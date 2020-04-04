@@ -308,6 +308,7 @@ class HybridWumpusAgent(Explorer):
     def infer_and_set_belief_location(self):
         if self.verbose: start_time = clock()
         self.belief_location = None
+        # pdb.set_trace()
         for x in range(1,self.width+1):
             for y in range(1,self.height+1):
                 query = expr(state_loc_str(x,y,self.time))

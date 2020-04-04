@@ -25,6 +25,8 @@ functions."""
 from utils import *
 import math, random, sys, time, bisect, string
 
+import pdb
+
 #______________________________________________________________________________
 
 class Problem(object):
@@ -235,6 +237,7 @@ def best_first_graph_search(problem, f):
         if problem.goal_test(node.state):
             return node
         explored.add(node.state)
+        # pdb.set_trace()
         for child in node.expand(problem):
             if child.state not in explored and child not in frontier:
                 frontier.append(child)

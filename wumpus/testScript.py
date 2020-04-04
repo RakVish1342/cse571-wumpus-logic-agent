@@ -97,7 +97,7 @@ yi = 1
 xmin = 1
 xmax = 4
 ymin = 1
-ymax = 3
+ymax = 4
 out = kb.axiom_generator_only_in_one_location(xi, yi, xmin, xmax, ymin, ymax, t)
 display(out, bViz)
 print ("-----")

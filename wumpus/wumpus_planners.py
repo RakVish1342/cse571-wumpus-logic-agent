@@ -130,6 +130,7 @@ class PlanRouteProblem(search.Problem):
         "*** YOUR CODE HERE ***"
         dists = []
         for goal in self.goals:
+            # pdb.set_trace()
             dists.append( manhattan_distance_with_heading(node.state, goal) )
 
         return min(dists)
@@ -141,8 +142,7 @@ class PlanRouteProblem(search.Problem):
         Return list of allowed actions that can be made in state
         """
         "*** YOUR CODE HERE ***"
-        pdb.set_trace()
-        print "actions"
+        # print "actions"
         x = state[0]
         y = state[1]
         heading = state[2]
@@ -220,6 +220,7 @@ class PlanRouteProblem(search.Problem):
         if heading == 3:
             nextFwdState = (x+1, y)
 
+        # pdb.set_trace()
         if nextFwdState in self.allowed:    
             return allPossActions
         else:
@@ -236,7 +237,7 @@ class PlanRouteProblem(search.Problem):
 
         # print action # So clearly the action being given is actually the effective/resultant location
         # pdb.set_trace()
-        print "result"
+        # print "result"
 
         # xdiff = action[0] - state[0]
         # ydiff = action[1] - state[1]
@@ -302,7 +303,9 @@ class PlanRouteProblem(search.Problem):
         Return True if state is a goal state
         """
         "*** YOUR CODE HERE ***"
-        return state in self.goals
+        # pdb.set_trace()
+        stateLoc = (state[0], state[1])
+        return stateLoc in self.goals
 
         # return True
 
