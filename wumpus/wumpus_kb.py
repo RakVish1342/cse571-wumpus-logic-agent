@@ -609,6 +609,10 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
 
+    # bumpMoveStr = 
+    nonMoveActionStr = falseSymb + action_forward_str(t) +  ' | ' + action_grab_str(t)  +  ' | ' + action_shoot_str(t)  + \
+        ' | ' + action_wait_str(t)  +  ' | ' + action_turn_left_str(t) +  ' | ' + action_turn_right_str(t)
+
     # Central Tiles
     if( (x-1 >= xmin) and (x+1 <= xmax) and (y-1 >= ymin) and (y+1 <= ymax) ): # All ranges lie in valid space/limits
         axiom_str += state_loc_str(x,y,t+1) + ' <=> ' + \
@@ -616,7 +620,8 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
 
     # Corner Tiles
@@ -626,7 +631,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + \
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Left
     elif( (x-1 < xmin) and (y+1 > ymax) ):
@@ -634,7 +639,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + \
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Right
     elif( (x+1 > xmax) and (y+1 > ymax) ):
@@ -642,7 +647,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + \
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Lower Right
     elif( (x+1 > xmax) and (y-1 < ymin) ):
@@ -650,7 +655,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + \
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
 
     # Edge Tiles
@@ -661,7 +666,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Upper Edge
     elif( (x-1 >= xmin) and (x+1 <= xmax) and (y+1 > ymax) ): # only x lies in the valid space
@@ -670,7 +675,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Left Edge
     elif( (x-1 < xmin) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
@@ -679,7 +684,7 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + state_loc_str(x+1,y,t) + ' & ' + ' ( ' + state_heading_west_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
     # Right Edge
     elif( (x+1 > xmax) and (y+1 >= ymin) and (y+1 <= ymax) ): # only y lies in the valid space
@@ -688,12 +693,89 @@ def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
         ' ( ' + state_loc_str(x-1,y,t) + ' & ' + ' ( ' + state_heading_east_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y-1,t) + ' & ' + ' ( ' + state_heading_north_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
         ' ( ' + state_loc_str(x,y+1,t) + ' & ' + ' ( ' + state_heading_south_str(t) + ' & ' + action_forward_str(t) + ' ) ' + ' ) ' + ' | ' + \
-        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + falseSymb + action_forward_str(t) + ' ) ' + ' ) ' + \
+        ' ( ' + state_loc_str(x,y,t) + ' & ' + ' ( ' + percept_bump_str(t+1) + ' | ' + nonMoveActionStr + ' ) ' + ' ) ' + \
         ' ) '
 
     # print(axiom_str)
 
     return axiom_str
+
+
+
+
+# def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
+#     #utils.print_not_implemented()
+#     """
+#     Assert the condidtions at time t under which the agent is in
+#     a particular location (state_loc_str: L) at time t+1, following
+#     the successor-state axiom pattern.
+
+#     See Section 7. of AIMA.  However...
+#     NOTE: the book's version of this class of axioms is not complete
+#           for the version in Project 3.
+
+#     x,y := location
+#     t := time
+#     xmin, xmax, ymin, ymax := the bounds of the environment.
+#     """
+#     axiom_str = ''
+#     "*** YOUR CODE HERE ***"#################################################################################
+
+#     moves = ['({0} & (~{1} | {2} | {3} | {4} | {5} | {6}))'.format(state_loc_str(x,y,t),action_forward_str(t),percept_bump_str(t+1),
+#                                                      action_grab_str(t),action_shoot_str(t),action_turn_left_str(t),action_turn_right_str(t))]
+
+#     for ((xVal,yVal),move) in [(((x-1),y),'E'),((x,(y-1)),'N'),(((x+1),y),'W'),((x,(y+1)),'S')]:
+#         if xVal >= xmin and xVal <= xmax and yVal >= ymin and yVal <= ymax:
+#             if move == 'N':
+#                 moves.append('({0} & ({1} & {2}))'.format(state_loc_str(x,y-1,t),state_heading_north_str(t),action_forward_str(t)))
+#             if move == 'E':
+#                 moves.append('({0} & ({1} & {2}))'.format(state_loc_str(x - 1, y, t), state_heading_east_str(t), action_forward_str(t)))
+#             if move == 'W':
+#                 moves.append('({0} & ({1} & {2}))'.format(state_loc_str(x + 1, y, t), state_heading_west_str(t), action_forward_str(t)))
+#             if move == 'S':
+#                 moves.append('({0} & ({1} & {2}))'.format(state_loc_str(x,y+1,t),state_heading_south_str(t),action_forward_str(t)))
+
+#     sL = state_loc_str(x,y,t+1)
+#     axiom_str = '{0} <=> ({1})'.format(sL,' | '.join(moves))
+
+#     return axiom_str
+
+
+
+# NOTE: this is very expensive in terms of generating many (~170 per axiom) CNF clauses!
+# def axiom_generator_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax):
+#     """
+#     Assert the condidtions at time t under which the agent is in
+#     a particular location (state_loc_str: L) at time t+1, following
+#     the successor-state axiom pattern.
+
+#     See Section 7. of AIMA.  However...
+#     NOTE: the book's version of this class of axioms is not complete
+#           for the version in Project 3.
+
+#     x,y := location
+#     t := time
+#     xmin, xmax, ymin, ymax := the bounds of the environment.
+#     """
+#     axiom_str = ''
+#     "*** YOUR CODE HERE ***"
+
+#     clauses = []
+#     # Forward clauses
+#     if x + 1 <= xmax:
+#         clauses.append('(({0} & {1} & {2}) >> ({3} & ~{4}))'.format(state_loc_str(x,y,t), state_heading_east_str(t), action_forward_str(t), state_loc_str(x+1,y,t+1), state_loc_str(x,y,t+1)))
+#     if x - 1 >= xmin:
+#         clauses.append('(({0} & {1} & {2}) >> ({3} & ~{4}))'.format(state_loc_str(x,y,t), state_heading_west_str(t), action_forward_str(t), state_loc_str(x-1,y,t+1), state_loc_str(x,y,t+1)))
+#     if y + 1 <= ymax:
+#         clauses.append('(({0} & {1} & {2}) >> ({3} & ~{4}))'.format(state_loc_str(x,y,t), state_heading_north_str(t), action_forward_str(t), state_loc_str(x,y+1,t+1), state_loc_str(x,y,t+1)))
+#     if y - 1 >= ymin:
+#         clauses.append('(({0} & {1} & {2}) >> ({3} & ~{4}))'.format(state_loc_str(x,y,t), state_heading_south_str(t), action_forward_str(t), state_loc_str(x,y-1,t+1), state_loc_str(x,y,t+1)))
+#     clauses.append('({0} <=> (({1} | {2} | {3} | {4} | {6}) & {6}))'.format(state_loc_str(x,y,t+1), action_wait_str(t), action_grab_str(t), action_shoot_str(t), action_turn_left_str(t), action_turn_right_str(t), state_loc_str(x,y,t)))
+
+#     axiom_str = ' | '.join(clauses)
+#     return axiom_str
+
+
 
 def generate_at_location_ssa(t, x, y, xmin, xmax, ymin, ymax, heading):
     #utils.print_not_implemented()
@@ -782,14 +864,28 @@ def axiom_generator_heading_north_ssa(t):
     axiom_str = ''
     "*** YOUR CODE HERE ***"
 
+    # axiom_str += \
+    #     state_heading_north_str(t+1) + ' <=> ' + \
+    #     ' ( ' + \
+    #     ' ( ' + state_heading_north_str(t) + ' & ' + \
+    #     ' ( ' + \
+    #     falseSymb + action_turn_left_str(t) + ' & ' + falseSymb + action_turn_right_str(t) + ' & ' + \
+    #     ' ( ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' | ' + action_forward_str(t) + ' | ' + percept_bump_str(t) + ' ) ' +  ' ) ' + \
+    #     ' ) ' + \
+    #     ' | '  \
+    #     ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
+    #     ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
+    #     ' ) '
     axiom_str += \
         state_heading_north_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_north_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
-        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_north_str(t) + ' & ' + \
+        ' ( ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' | ' + action_forward_str(t) + ' | ' + percept_bump_str(t) + ' ) ' +  ' ) ' + \
+        ' | '  \
         ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
+
 
     # print(axiom_str)
 
@@ -810,8 +906,9 @@ def axiom_generator_heading_east_ssa(t):
     axiom_str += \
         state_heading_east_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_east_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
-        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_east_str(t) + ' & ' + \
+        ' ( ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' | ' + action_forward_str(t) + ' | ' + percept_bump_str(t) + ' ) ' +  ' ) ' + \
+        ' | '  \
         ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -835,8 +932,9 @@ def axiom_generator_heading_south_ssa(t):
     axiom_str += \
         state_heading_south_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_south_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
-        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_south_str(t) + ' & ' + \
+        ' ( ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' | ' + action_forward_str(t) + ' | ' + percept_bump_str(t) + ' ) ' +  ' ) ' + \
+        ' | '  \
         ' ( ' + state_heading_east_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_west_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
@@ -860,8 +958,9 @@ def axiom_generator_heading_west_ssa(t):
     axiom_str += \
         state_heading_west_str(t+1) + ' <=> ' + \
         ' ( ' + \
-        ' ( ' + state_heading_west_str(t) + ' & ' + falseSymb + ' ( ' + action_turn_left_str(t) + ' | ' + action_turn_right_str(t) + \
-        ' | ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' ) ' +  ' ) ' + ' | ' + \
+        ' ( ' + state_heading_west_str(t) + ' & ' + \
+        ' ( ' + action_grab_str(t) + ' | ' + action_shoot_str(t) + ' | ' + action_wait_str(t) + ' | ' + action_forward_str(t) + ' | ' + percept_bump_str(t) + ' ) ' +  ' ) ' + \
+        ' | '  \
         ' ( ' + state_heading_south_str(t) + ' & ' + action_turn_right_str(t) +  ' ) ' + ' | ' + \
         ' ( ' + state_heading_north_str(t) + ' & ' + action_turn_left_str(t) +  ' ) ' + \
         ' ) '
